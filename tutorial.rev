@@ -1,0 +1,30 @@
+### Load the sequence alignment
+D <- readDiscreteCharacterData(file="data/bears_irbp.nex")
+
+### get helpful variables from the data
+n_sites <- D.nchar(1)
+
+### initialize an iterator for the moves vector
+mi = 1
+
+### set up the birth-death model from file
+source("scripts/m_BDP_bears.Rev")
+
+### load the model from file 
+source("scripts/m_GMC_bears.Rev")
+
+### workspace model wrapper ###
+mymodel = model(er)
+
+monitors[1] = mnModel(filename="output/TimetTree_bears_mcmc.log", printgen=10)
+monitors[2] = mnFile(filename="output/TimeTree_bears_mcmc.trees", printgen=10, timetree)
+monitors[3] = mnScreen(printgen=10, root_time, tmrca_Ursidae)
+mymcmc = mcmc(mymodel, monitors, moves)
+mymcmc.burnin(generations=2000,tuningInterval=100)
+mymcmc.run(generations=5000)
+mymcmc.operatorSummary()
+tt = readTreeTrace("output/TimeTree_bears_mcmc.trees", "clock")
+tt.summarize()
+
+### write MAP tree to file
+mapTree(tt, "output/TimeTree_bears_mcmc_MAP.tre")
