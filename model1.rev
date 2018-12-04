@@ -1,0 +1,98 @@
+#donnes AA
+
+data <- readDiscreteCharacterData(file="data/aln_prot.nexus")
+n_sites <- data.nchar()
+mi = 1
+
+########################
+
+#tree 
+
+root_time <- 443
+T <- readTrees("data/vertebrate_Poisson_NJ.tree")[1]
+n_taxa <- T.ntips()
+taxa <- T.taxa()
+
+########################
+
+#BDP model
+
+### diversification = birth_rate - death_rate
+### assume an exponential prior distribution 
+### and apply a scale proposal
+diversification ~ dnExponential(10.0) 
+moves[mi++] = mvScale(diversification,lambda=1.0,tune=true,weight=3.0)
+
+### turnover = death_rate / birth_rate
+### this parameter can only take values between 0 and 1
+### use a Beta prior distribution
+### and a slide move
+turnover ~ dnBeta(2.0, 2.0) 
+moves[mi++] = mvSlide(turnover,delta=1.0,tune=true,weight=3.0)
+
+### the parameters of the BDP include birth and death rates
+### these are deterministic variables of the diversification & turnover
+##### create a variable to ensure the rates are always positive (RealPos)
+denom := abs(1.0 - turnover) 
+##### birth_rate = diversification / (1 - turnover)
+birth_rate := diversification / denom
+##### death_rate = (turnover * diversification) / (1 - turnover)
+death_rate := (turnover * diversification) / denom
+
+### rho is the probability of sampling species at the present
+### fix this to 0.068, since there are ~147 described species of caniforms (bears, dogs, mustelids, pinnipeds, etc.)
+### and we have sampled 10
+##rho <- 0.068
+##23/39
+rho <-0.0003484848
+
+clock_time ~ dnGamma(2.0,4.0)
+#copy from tutorial
+
+### the time tree is a stochastic node modeled by the constant rate birth-death process (dnBDP)
+psi ~ dnBDP(lambda=birth_rate, mu=death_rate, rho=rho, rootAge=root_time, 
+	samplingStrategy="uniform", condition="nTaxa", taxa=taxa)
+
+### add moves on the tree node times, including the root time, which is outside of the timetree 
+moves[mi++] = mvNodeTimeSlideUniform(psi, weight=30.0)
+moves[mi++] = mvTreeScale(tree=psi, rootAge=root_time, delta=1.0, tune=true, weight=3.0)
+moves[mi++] = mvSlide(root_time, delta=2.0, tune=true, weight=10.0)
+moves[mi++] = mvScale(root_time, lambda=2.0, tune=true, weight=10.0)
+
+psi.setValue(T)
+
+########################
+
+#compare miu and lambda fixed and estimated
+#calculate rho from literature
+
+Q_mol := fnLG()
+
+seq ~ dnPhyloCTMC(tree=psi, Q=Q_mol, branchRates=clock_time, type="Protein", nSites=n_sites)
+
+seq.clamp(data)
+
+############
+# Analysis #
+############
+
+mymodel = model(psi)
+
+# add monitors
+monitors[mni++] = mnScreen(TL, printgen=1000)
+monitors[mni++] = mnFile(psi, filename="output/vertebrate_Poisson_LG.trees", printgen=10)
+monitors[mni++] = mnModel(filename="output/vertebrate_Poisson_LG.log", printgen=10)
+
+# run the analysis
+mymcmc = mcmc(mymodel, moves, monitors, nruns=2, combine="mixed")
+mymcmc.run(generations=20000,tuningInterval=200)
+
+###################
+# Post processing #
+###################
+
+# Now, we will analyze the tree output.
+# Let us start by reading in the tree trace
+treetrace = readTreeTrace("output/vertebrate_Poisson_LG.trees", treetype="clock")
+# and then get the MAP tree
+map_tree = mapTree(treetrace,"output/vertebrate_Poisson_LG_MAP.tree")
