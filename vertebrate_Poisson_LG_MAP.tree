@@ -1,0 +1,34 @@
+#NEXUS
+
+	Begin taxa;
+	Dimensions ntax=23;
+	Taxlabels
+		Amblyraja_radiata
+		Callorhinchus_callorynchus
+		Callorhinchus_capensis
+		Callorhinchus_milii
+		Chimaera_monstrosa
+		Chimaera_sp
+		Cyprinus_carpio
+		Hariotta_raleighana
+		Heterodontus_francisci
+		Homo_sapiens
+		Hydrolagus_lemures
+		Mustelus_manazo
+		Okamejei_kenojei
+		Ornithorhynchus_anatinus
+		Plesiobatis_daviesi
+		Polymixia_japonica
+		Protopterus_aethiopicus
+		Rhinochimaera_pacifica
+		Scyliorhinus_canicula
+		Squalus_acanthias
+		Struthio_camelus
+		Tetraodon_nigroviridis
+		Xenopus_tropicalis
+		;
+End;
+
+Begin trees;
+tree TREE1 = [&R]((((((Chimaera_monstrosa[&index=16,age_95%_HPD={0,0.134791}]:0.080081,Chimaera_sp[&index=15,age_95%_HPD={0,0.133741}]:0.080606)[&index=24,posterior=0.500000,age_95%_HPD={0.135618,0.158548}]:0.015473,Hydrolagus_lemures[&index=14,age_95%_HPD={0,0.130351}]:0.097774)[&index=25,posterior=0.500000,age_95%_HPD={0.145575,0.177265}]:0.010011,(Hariotta_raleighana[&index=12,age_95%_HPD={0,0.125541}]:0.078624,Rhinochimaera_pacifica[&index=13,age_95%_HPD={0,0.128491}]:0.077149)[&index=26,posterior=0.500000,age_95%_HPD={0.129644,0.154205}]:0.031566)[&index=27,posterior=0.500000,age_95%_HPD={0.155366,0.193668}]:0.020989,((Callorhinchus_capensis[&index=10,age_95%_HPD={0,0.134521}]:0.076323,Callorhinchus_milii[&index=9,age_95%_HPD={0,0.135511}]:0.075828)[&index=28,posterior=0.500000,age_95%_HPD={0.136742,0.152981}]:0.007254,Callorhinchus_callorynchus[&index=11,age_95%_HPD={0,0.134251}]:0.083712)[&index=29,posterior=0.500000,age_95%_HPD={0.138839,0.166704}]:0.043111)[&index=30,posterior=0.500000,age_95%_HPD={0.173258,0.221667}]:0.130082,((((Mustelus_manazo[&index=22,age_95%_HPD={0,0.172111}]:0.111685,Scyliorhinus_canicula[&index=21,age_95%_HPD={0,0.160351}]:0.117565)[&index=31,posterior=0.500000,age_95%_HPD={0.182536,0.21356}]:0.014876,Heterodontus_francisci[&index=20,age_95%_HPD={0,0.171251}]:0.126990)[&index=32,posterior=0.500000,age_95%_HPD={0.189372,0.2314}]:0.017550,Squalus_acanthias[&index=23,age_95%_HPD={0,0.177371}]:0.141480)[&index=33,posterior=0.500000,age_95%_HPD={0.207554,0.254385}]:0.020050,((Amblyraja_radiata[&index=19,age_95%_HPD={0,0.166551}]:0.093144,Okamejei_kenojei[&index=18,age_95%_HPD={0,0.157201}]:0.097819)[&index=34,posterior=0.500000,age_95%_HPD={0.166699,0.189453}]:0.038293,Plesiobatis_daviesi[&index=17,age_95%_HPD={0,0.140721}]:0.144352)[&index=35,posterior=0.500000,age_95%_HPD={0.189833,0.246391}]:0.035502)[&index=36,posterior=0.500000,age_95%_HPD={0.219126,0.277125}]:0.073815)[&index=37,posterior=0.500000,age_95%_HPD={0.25849,0.331099}]:442.675970,(((((Homo_sapiens[&index=3]:0.160446,Ornithorhynchus_anatinus[&index=2,age_95%_HPD={0,0.04143}]:0.139731)[&index=38,posterior=0.500000,age_95%_HPD={0.128169,0.199376}]:0.060301,Struthio_camelus[&index=4,age_95%_HPD={0,0.067601}]:0.186948)[&index=39,posterior=0.500000,age_95%_HPD={0.190986,0.248418}]:0.031360,Xenopus_tropicalis[&index=5,age_95%_HPD={0,0.142291}]:0.180962)[&index=40,posterior=0.500000,age_95%_HPD={0.232911,0.2673}]:0.004940,Protopterus_aethiopicus[&index=1,age_95%_HPD={0,0.111941}]:0.201078)[&index=41,posterior=0.500000,age_95%_HPD={0.238223,0.268938}]:0.011892,((Polymixia_japonica[&index=7,age_95%_HPD={0,0.174091}]:0.116594,Tetraodon_nigroviridis[&index=8,age_95%_HPD={0,0.166071}]:0.120604)[&index=42,posterior=0.500000,age_95%_HPD={0.191515,0.224843}]:0.024316,Cyprinus_carpio[&index=6,age_95%_HPD={0,0.178011}]:0.138950)[&index=43,posterior=0.500000,age_95%_HPD={0.207342,0.246262}]:0.040985)[&index=44,posterior=0.500000,age_95%_HPD={0.268939,0.268941}]:442.731060)[&index=45,posterior=1.000000,age_95%_HPD={443,443}]:0.000000;
+End;
